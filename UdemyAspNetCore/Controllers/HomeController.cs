@@ -13,6 +13,13 @@ namespace UdemyAspNetCore.Controllers
         {
             Customer customer = new () { FirstName = "Zafer", LastName = "YILMAZ", Age = 39 };
             return View(customer);
+            //return RedirectToAction("yavuz", new { id = 1 });
+            //return RedirectToAction("Index", "Product", new {@id=1});
+        }
+
+        public IActionResult Yavuz(int id)
+        {
+            return View();
         }
     }
 }

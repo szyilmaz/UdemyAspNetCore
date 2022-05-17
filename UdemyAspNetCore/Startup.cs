@@ -29,19 +29,18 @@ namespace UdemyAspNetCore
             }
 
             app.UseRouting();
-            //app.UseMiddleware<ResponseEditingMiddleware>();
-            //app.UseMiddleware<RequestEditingMiddleware>();
+           
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{Controller}/{Action}",
+                    pattern: "{Controller}/{Action}/{id?}",
                     defaults: new {Controller="Home", Action="Index"}
                     );
             });
 
-
-
+            //app.UseMiddleware<ResponseEditingMiddleware>();
+            //app.UseMiddleware<RequestEditingMiddleware>();
             //app.UseEndpoints(endpoints =>
             //{
             //    endpoints.MapGet("/", async context =>
