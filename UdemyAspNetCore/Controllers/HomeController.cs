@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using UdemyAspNetCore.Models;
 
 namespace UdemyAspNetCore.Controllers
 {
@@ -10,7 +11,8 @@ namespace UdemyAspNetCore.Controllers
     {
         public IActionResult Index()
         {
-            return View();
+            Customer customer = new () { FirstName = "Zafer", LastName = "YILMAZ", Age = 39 };
+            return View(customer);
         }
     }
 }
