@@ -17,39 +17,25 @@ namespace UdemyAspNetCore.Controllers
 
         public IActionResult Create()
         {
-            return View();
+            return View(new Customer());
         }
 
-        public IActionResult CreateWithForm()
+        public IActionResult CreateNew(Customer customer)
         {
-            var firstName = HttpContext.Request.Form["firstName"].ToString();
-            var lastName = HttpContext.Request.Form["lastName"].ToString();
-            var age = int.Parse(HttpContext.Request.Form["age"].ToString());
-
-            var id = 0;
-
+            var id = 1;
             if (CustomerContext.Customers.Count > 0)
             {
                 var lastCustomer = CustomerContext.Customers.Last();
                 id = lastCustomer.Id + 1;
             }
-           
-
-            CustomerContext.Customers.Add(new Customer
-            {
-                Id = id,
-                FirstName = firstName,
-                LastName = lastName,
-                Age = age
-            });
-
+            customer.Id = id;
+            CustomerContext.Customers.Add(customer);
             return RedirectToAction("Index");
         }
 
         [HttpGet]
-        public IActionResult Remove()
+        public IActionResult Remove(int id)
         {
-            var id = int.Parse(RouteData.Values["id"].ToString());
             var customerTobeRemoved =  CustomerContext.Customers.Find(c => c.Id == id);
 
             CustomerContext.Customers.Remove(customerTobeRemoved);
@@ -58,26 +44,20 @@ namespace UdemyAspNetCore.Controllers
         }
 
         [HttpGet]
-        public IActionResult Update()
+        public IActionResult Update(int id)
         {
-            var id = int.Parse(RouteData.Values["id"].ToString());
             var customerTobeUpdated = CustomerContext.Customers.FirstOrDefault(c => c.Id == id);
 
             return View(customerTobeUpdated);
         }
 
         [HttpPost]
-        public IActionResult UpdateCustomer()
+        public IActionResult UpdateCustomer(Customer customer)
         {
-            var id = int.Parse(HttpContext.Request.Form["id"].ToString());
-            var firstName = HttpContext.Request.Form["firstName"].ToString();
-            var lastName = HttpContext.Request.Form["lastName"].ToString();
-            var age = int.Parse(HttpContext.Request.Form["age"].ToString());
-
-            var customerTobeUpdated = CustomerContext.Customers.FirstOrDefault(c => c.Id == id);
-            customerTobeUpdated.Age = age;
-            customerTobeUpdated.FirstName = firstName;
-            customerTobeUpdated.LastName = lastName;
+            var customerTobeUpdated = CustomerContext.Customers.FirstOrDefault(c => c.Id == customer.Id);
+            customerTobeUpdated.Age = customer.Age;
+            customerTobeUpdated.FirstName = customer.FirstName;
+            customerTobeUpdated.LastName = customer.LastName;
 
             return RedirectToAction("Index");
         }
